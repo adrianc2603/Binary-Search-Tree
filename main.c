@@ -16,7 +16,6 @@ tree_t *create_tree() {
  */
 void insert(tree_t *tree, int e) {
     if (tree == NULL) {
-        printf("Tree is NULL\n");
         return;
     }
 
@@ -77,7 +76,6 @@ void insert(tree_t *tree, int e) {
  */
 node_t *search(tree_t *tree, int e) {
     if (tree == NULL) {
-        printf("Tree is NULL\n");
         return NULL;
     }
 
@@ -97,7 +95,6 @@ node_t *search(tree_t *tree, int e) {
 
     // Element not found in tree
     if (current_node == NULL) {
-        printf("Element not found in tree\n");
         return NULL;
     }
 
@@ -110,7 +107,6 @@ node_t *search(tree_t *tree, int e) {
  */
 node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return NULL;
     }
 
@@ -179,7 +175,6 @@ node_t *find_minimum(node_t *p) {
  */
 int size(tree_t *tree) {
     if (tree == NULL) {
-        printf("Tree is NULL\n");
         return 0;
     }
     return tree->size;
@@ -191,7 +186,6 @@ int size(tree_t *tree) {
  */
 bool is_empty(tree_t *tree) {
     if (tree == NULL) {
-        printf("Tree is NULL\n");
         return true;
     }
     return (tree->size == 0);
@@ -203,7 +197,6 @@ bool is_empty(tree_t *tree) {
  */
 node_t *root(tree_t *tree) {
     if (tree == NULL) {
-        printf("Tree is NULL\n");
         return NULL;
     }
     return tree->root;
@@ -215,7 +208,6 @@ node_t *root(tree_t *tree) {
  */
 node_t *parent(node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return NULL;
     }
     return p->parent;
@@ -227,7 +219,6 @@ node_t *parent(node_t *p) {
  */
 int num_children(node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return 0;
     }
     if (p->left_child == NULL && p->right_child == NULL) {
@@ -245,7 +236,6 @@ int num_children(node_t *p) {
  */
 bool is_internal(node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return false;
     }
     return (p->left_child != NULL || p->right_child != NULL);
@@ -257,7 +247,6 @@ bool is_internal(node_t *p) {
  */
 bool is_external(node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return true;
     }
     return (p->left_child == NULL && p->right_child == NULL);
@@ -269,7 +258,6 @@ bool is_external(node_t *p) {
  */
 bool is_root(tree_t *tree, node_t *p) {
     if (tree == NULL || p == NULL) {
-        printf("Tree or Node is NULL\n");
         return false;
     }
     return (tree->root == p);
@@ -331,7 +319,6 @@ void visit_node(node_t *p) {
  */
 int depth(node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return 0;
     }
     if (p->parent == NULL) {
@@ -345,7 +332,6 @@ int depth(node_t *p) {
  */
 int height(node_t *p) {
     if (p == NULL) {
-        printf("Node is NULL\n");
         return 0;
     }
     if (is_external(p)) {
