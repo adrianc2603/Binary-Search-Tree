@@ -111,11 +111,7 @@ node_t *search(tree_t *tree, int e) {
  * recursive call. Return NULL if the root or p is NULL
  */
 node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
-    if (p == NULL) {
-        return NULL;
-    }
-
-    if (root == NULL) {
+    if (root == NULL || p == NULL) {
         return NULL;
     }
 
@@ -165,7 +161,7 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
             tree->size--;
         }
 
-        // 2 Child (Right and Left)
+        // 2 Children (Right and Left)
         else {
             node_t *current_node = find_minimum(root->right_child); // Find minimum element in right subtree of node we want to delete
             root->element = current_node->element;
