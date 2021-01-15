@@ -19,6 +19,11 @@ void insert(tree_t *tree, int e) {
         return;
     }
 
+    // Element e already exists in the tree
+    if (search(tree, e) != NULL) {
+        return;
+    }   
+
     // Create new node
     node_t *new_node = malloc(sizeof(node_t));
     new_node->element = e;
@@ -124,26 +129,40 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
         root->right_child = remove_node(tree, root->right_child, p);
     }
 
-    else {
+    else { // root == p
 
         // No children
         if (root->left_child == NULL && root->right_child == NULL) {
             free(root);
-            return NULL;
+            root = NULL;
+            tree->size--;
+            if (tree->size == 0) { // We have removed the root of the entire tree
+                tree->root = NULL;
+            }
         }
 
         // 1 Child (Right)
         else if (root->left_child == NULL) {
             node_t *current_node = root;
             root = root->right_child;
+            if (current_node->parent == NULL) { // root node is the root of the entire tree
+                tree->root = root;
+                root->parent = NULL;
+            }
             free(current_node);
+            tree->size--;
         }
 
         // 1 Child (Left)
         else if (root->right_child == NULL) {
             node_t *current_node = root;
             root = root->left_child;
+            if (current_node->parent == NULL) { // root node is the root of the entire tree
+                tree->root = root;
+                root->parent = NULL;
+            }
             free(current_node);
+            tree->size--;
         }
 
         // 2 Child (Right and Left)
@@ -153,8 +172,8 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
             root->right_child = remove_node(tree, root->right_child, current_node);
         }
     }
-    tree->size--;
     return root;
+    
 }
 
 /** 
@@ -311,7 +330,7 @@ void visit_node(node_t *p) {
     if (p == NULL) {
         return;
     }
-    printf("%d\n", p->element);
+    printf("%d -- ", p->element);
 }
 
 /**
@@ -356,7 +375,7 @@ int max(int a, int b) {
  * Free all memory associated with the tree
  */
 void destroy_tree(tree_t *tree) {
-    if (tree->root != NULL) {
+    if (!is_empty(tree)) {
         destroy_node(tree->root);
     }
     free(tree);
