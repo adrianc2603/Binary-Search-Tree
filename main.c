@@ -13,6 +13,8 @@ tree_t *create_tree() {
 
 /**
  * Insert element e into the tree
+ * Time Complexity: O(h) (h = height of tree. Best case: h = log(n). 
+ * Worst case: h = n)
  */
 void insert(tree_t *tree, int e) {
     if (tree == NULL) {
@@ -78,6 +80,8 @@ void insert(tree_t *tree, int e) {
 /**
  * Search and return the node containing element e. 
  * Return NULL if the node is not found
+ * Time Complexity: O(h) (h = height of tree. Best case: h = log(n). 
+ * Worst case: h = n)
  */
 node_t *search(tree_t *tree, int e) {
     if (tree == NULL) {
@@ -109,6 +113,8 @@ node_t *search(tree_t *tree, int e) {
 /**
  * Remove the given node (p) from the tree. Return the root node from each 
  * recursive call. Return NULL if the root or p is NULL
+ * Time Complexity: O(h) (h = height of tree. Best case: h = log(n). 
+ * Worst case: h = n)
  */
 node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
     if (root == NULL || p == NULL) {
@@ -175,6 +181,7 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
 /** 
  * Find the minimum node in the subtree of p
  * Helper for remove_node
+ * Time Complexity: O(h) (h = height of tree). 
  */
 node_t *find_minimum(node_t *p) {
     node_t *current_node = p;
@@ -215,17 +222,6 @@ node_t *root(tree_t *tree) {
         return NULL;
     }
     return tree->root;
-}
-
-/**
- * Return the parent node of the given node
- * Time Complexity: O(1)
- */
-node_t *parent(node_t *p) {
-    if (p == NULL) {
-        return NULL;
-    }
-    return p->parent;
 }
 
 /**
@@ -281,6 +277,7 @@ bool is_root(tree_t *tree, node_t *p) {
 /**
  * Perform a pre_order traversal of the tree, visiting the node 
  * and then its children
+ * Time Complexity: O(n) 
  */
 void pre_order(node_t *p) {
     if (p == NULL) {
@@ -294,6 +291,7 @@ void pre_order(node_t *p) {
 /**
  * Perform a post_order traversal of the tree, visiting the node's 
  * children and then the node
+ * Time Complexity: O(n) 
  */
 void post_order(node_t *p) {
     if (p == NULL) {
@@ -307,6 +305,7 @@ void post_order(node_t *p) {
 /**
  * Perform an in_order traversal of the tree, visiting the node's left child, 
  * itself, and then the node's right child
+ * Time Complexity: O(n) 
  */
 void in_order(node_t *p) {
     if (p == NULL) {
@@ -331,6 +330,7 @@ void visit_node(node_t *p) {
 
 /**
  * Return the depth of the given node in the tree
+ * Time Complexity: O(h) (h = height of tree).
  */
 int depth(node_t *p) {
     if (p == NULL) {
@@ -344,6 +344,7 @@ int depth(node_t *p) {
 
 /**
  * Return the height of the given node in the tree
+ * Time Complexity: O(h) (h = height of tree).
  */
 int height(node_t *p) {
     if (p == NULL) {
@@ -369,6 +370,7 @@ int max(int a, int b) {
 
 /**
  * Free all memory associated with the tree
+ * Time Complexity: O(n) (including destroy_node() helper function)
  */
 void destroy_tree(tree_t *tree) {
     if (!is_empty(tree)) {
@@ -380,6 +382,7 @@ void destroy_tree(tree_t *tree) {
 /**
  * Free each node in the subtree of node p
  * Helper for destroy_tree
+ * Time Complexity: O(n) 
  */
 void destroy_node(node_t *p) {
     if (p->left_child != NULL) {

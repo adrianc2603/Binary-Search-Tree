@@ -260,7 +260,6 @@ void test_all_functions_regular_cases() {
     printf("The size of the tree is %d\n", size(tree)); // The size of the tree is 0
     printf("Is the tree empty? %d\n", is_empty(tree)); // Is the tree empty? 1 (True)
     printf("The root of the tree is %p\n", root(tree)); // The root of the tree is 0x0 (NULL)
-    printf("The parent of the root is %p because the root is NULL\n", parent(tree->root)); // The parent of the root is 0x0 (NULL)
     printf("The number of children of the root is %d because the root is NULL\n", num_children(tree->root)); // The number of children of the root is 0
     printf("Is the root internal? %d because the root is NULL\n", is_internal(tree->root)); // Is the root internal? 0 (False)
     printf("Is the root external? %d because the root is NULL\n", is_external(tree->root)); // Is the root external? 1 (True)
@@ -287,7 +286,6 @@ void test_all_functions_regular_cases() {
     printf("\nThe size of the tree is %d\n", size(tree)); // The size of the tree is 1
     printf("Is the tree empty? %d\n", is_empty(tree)); // Is the tree empty? 0 (False)
     printf("The root of the tree is %d\n", root(tree)->element); // The root of the tree is 12
-    printf("The parent of the root is %p\n", parent(tree->root)); // The parent of the root is 0x0 (NULL)
     printf("The number of children of the root is %d\n", num_children(tree->root)); // The number of children of the root is 0
     printf("Is the root internal? %d\n", is_internal(tree->root)); // Is the root internal? 0 (False)
     printf("Is the root external? %d\n", is_external(tree->root)); // Is the root external? 1 (True)
@@ -318,7 +316,7 @@ void test_all_functions_regular_cases() {
     node_t *node = search(tree, 9);
     printf("\nThe size of the tree is %d\n", size(tree)); // The size of the tree is 2
     printf("The root of the tree is %d\n", root(tree)->element); // The root of the tree is 12 
-    printf("The parent of the new node is %d\n", parent(node)->element); // The parent of the new node is 12
+    printf("The parent of the new node is %d\n", node->parent->element); // The parent of the new node is 12
     printf("The number of children of the root is %d\n", num_children(tree->root)); // The number of children of the root is 1
     printf("Is the root internal? %d\n", is_internal(tree->root)); // Is the root internal? 1 (True)
     printf("Is the root external? %d\n", is_external(tree->root)); // Is the root external? 0 (False)
@@ -353,7 +351,7 @@ void test_all_functions_regular_cases() {
     node = search(tree, 9);
     printf("\nThe size of the tree is %d\n", size(tree)); // The size of the tree is 3
     printf("The root of the tree is %d\n", root(tree)->element); // The root of the tree is 12 
-    printf("The parent of the new node is %d\n", parent(node)->element); // The parent of the new node is 12
+    printf("The parent of the new node is %d\n", node->parent->element); // The parent of the new node is 12
     printf("The number of children of the root is %d\n", num_children(tree->root)); // The number of children of the root is 2
     printf("Is the root internal? %d\n", is_internal(tree->root)); // Is the root internal? 1 (True)
     printf("Is the root external? %d\n", is_external(tree->root)); // Is the root external? 0 (False)
@@ -387,7 +385,7 @@ void test_all_functions_regular_cases() {
     node = search(tree, 3);
     printf("\nThe size of the tree is %d\n", size(tree)); // The size of the tree is 4
     printf("The root of the tree is %d\n", root(tree)->element); // The root of the tree is 12 
-    printf("The parent of the new node is %d\n", parent(node)->element); // The parent of the new node is 9
+    printf("The parent of the new node is %d\n", node->parent->element); // The parent of the new node is 9
     printf("The number of children of the parent is %d\n", num_children(node->parent)); // The number of children of the parent is 1
     printf("Is the parent internal? %d\n", is_internal(node->parent)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(node->parent)); // Is the parent external? 0 (False)
@@ -421,7 +419,7 @@ void test_all_functions_regular_cases() {
     node = search(tree, 5);
     printf("\nThe size of the tree is %d\n", size(tree)); // The size of the tree is 5
     printf("The root of the tree is %d\n", root(tree)->element); // The root of the tree is 12 
-    printf("The parent of the new node is %d\n", parent(node)->element); // The parent of the new node is 3
+    printf("The parent of the new node is %d\n", node->parent->element); // The parent of the new node is 3
     printf("The number of children of the parent is %d\n", num_children(node->parent)); // The number of children of the parent is 1
     printf("Is the parent internal? %d\n", is_internal(node->parent)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(node->parent)); // Is the parent external? 0 (False)
@@ -449,16 +447,13 @@ void test_all_functions_regular_cases() {
     print_tree(tree->root);
     printf("\n");
 
-
-
-
     // Insert 2
     printf("\nInsert 2 ---\n");
     insert(tree, 2);
     node = search(tree, 2);
     printf("\nThe size of the tree is %d\n", size(tree)); // The size of the tree is 6
     printf("The root of the tree is %d\n", root(tree)->element); // The root of the tree is 12 
-    printf("The parent of the new node is %d\n", parent(node)->element); // The parent of the new node is 3
+    printf("The parent of the new node is %d\n", node->parent->element); // The parent of the new node is 3
     printf("The number of children of the parent is %d\n", num_children(node->parent)); // The number of children of the parent is 2
     printf("Is the parent internal? %d\n", is_internal(node->parent)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(node->parent)); // Is the parent external? 0 (False)
@@ -516,7 +511,7 @@ void test_all_functions_regular_cases() {
     printf("\n");
 
     // Remove 20
-    node_t *parent_node = parent(node);
+    node_t *parent_node = node->parent;
     printf("%d has %d children\n", parent_node->element, num_children(parent_node)); // 22 has 1 children
     printf("Is the parent internal? %d\n", is_internal(parent_node)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(parent_node)); // Is the parent external? 0 (False)
@@ -550,7 +545,7 @@ void test_all_functions_regular_cases() {
 
     // Remove 2
     node = search(tree, 2);
-    parent_node = parent(node);
+    parent_node = node->parent;
     printf("%d has %d children\n", parent_node->element, num_children(parent_node)); // 3 has 2 children
     printf("Is the parent internal? %d\n", is_internal(parent_node)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(parent_node)); // Is the parent external? 0 (False)
@@ -584,7 +579,7 @@ void test_all_functions_regular_cases() {
 
     // Remove 5
     node = search(tree, 5);
-    parent_node = parent(node);
+    parent_node = node->parent;
     printf("%d has %d children\n", parent_node->element, num_children(parent_node)); // 3 has 1 children
     printf("Is the parent internal? %d\n", is_internal(parent_node)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(parent_node)); // Is the parent external? 0 (False)
@@ -618,7 +613,7 @@ void test_all_functions_regular_cases() {
 
     // Remove 26
     node = search(tree, 26);
-    parent_node = parent(node);
+    parent_node = node->parent;
     printf("%d has %d children\n", parent_node->element, num_children(parent_node)); // 12 has 2 children
     printf("Is the parent internal? %d\n", is_internal(parent_node)); // Is the parent internal? 1 (True)
     printf("Is the parent external? %d\n", is_external(parent_node)); // Is the parent external? 0 (False)
@@ -904,7 +899,6 @@ void test_all_functions_regular_cases() {
     printf("The size of the tree is %d\n", size(tree)); // The size of the tree is 0
     printf("Is the tree empty? %d\n", is_empty(tree)); // Is the tree empty? 1 (True)
     printf("The root of the tree is %p\n", root(tree)); // The root of the tree is 0x0 (NULL)
-    printf("The parent of the root is %p because the root is NULL\n", parent(tree->root)); // The parent of the root is 0x0 (NULL)
     printf("The number of children of the root is %d because the root is NULL\n", num_children(tree->root)); // The number of children of the root is 0
     printf("Is the root internal? %d because the root is NULL\n", is_internal(tree->root)); // Is the root internal? 0 (False)
     printf("Is the root external? %d because the root is NULL\n", is_external(tree->root)); // Is the root external? 1 (True)

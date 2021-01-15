@@ -30,8 +30,6 @@ bool is_empty(tree_t *tree);
 
 node_t *root(tree_t *tree);
 
-node_t *parent(node_t *p);
-
 int num_children(node_t *p);
 
 bool is_internal(node_t *p);
@@ -39,10 +37,6 @@ bool is_internal(node_t *p);
 bool is_external(node_t *p);
 
 bool is_root(tree_t *tree, node_t *p);
-
-node_t *left_child(node_t *p);
-
-node_t *right_child(node_t *p);
 
 void pre_order(node_t *p);
 
