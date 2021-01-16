@@ -11,6 +11,6 @@ This binary search tree stores integers whilst keeping the BST property that for
 - main.c.gcov: Shows the coverage of the main.c code when the tester.c file is run. 
 
 ### Run On Your Machine
-I ran the tests with the following inputs to the command line:
+I ran the tester code with the following inputs to the command line:
 1. gcc tester.c main.c
 2. ./a.out
