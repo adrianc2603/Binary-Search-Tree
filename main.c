@@ -138,7 +138,7 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
             free(root);
             root = NULL;
             tree->size--;
-            if (tree->size == 0) { // We have removed the root of the entire tree
+            if (tree->size == 0) { // Tree is now empty
                 tree->root = NULL;
             }
         }
@@ -147,7 +147,7 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
         else if (root->left_child == NULL) {
             node_t *current_node = root;
             root = root->right_child;
-            if (current_node->parent == NULL) { // root node is the root of the entire tree
+            if (current_node->parent == NULL) { // new root is root of tree
                 tree->root = root;
                 root->parent = NULL;
             }
@@ -159,7 +159,7 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
         else if (root->right_child == NULL) {
             node_t *current_node = root;
             root = root->left_child;
-            if (current_node->parent == NULL) { // root node is the root of the entire tree
+            if (current_node->parent == NULL) { // new root is root of tree
                 tree->root = root;
                 root->parent = NULL;
             }
@@ -169,9 +169,9 @@ node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
 
         // 2 Children (Right and Left)
         else {
-            node_t *current_node = find_minimum(root->right_child); // Find minimum element in right subtree of node we want to delete
-            root->element = current_node->element;
-            root->right_child = remove_node(tree, root->right_child, current_node);
+            node_t *min_node = find_minimum(root->right_child); // Min node in 
+            root->element = min_node->element;                 // right subtree
+            root->right_child = remove_node(tree, root->right_child, min_node);
         }
     }
     return root;
