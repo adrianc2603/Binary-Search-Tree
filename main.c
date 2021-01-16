@@ -88,6 +88,7 @@ node_t *search(tree_t *tree, int e) {
         return NULL;
     }
 
+    // Traverse down the tree, starting at the root
     node_t *current_node = tree->root;
     while (current_node != NULL && current_node->element != e) {
 
