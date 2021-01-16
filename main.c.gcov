@@ -1,0 +1,401 @@
+        -:    0:Source:main.c
+        -:    0:Graph:main.gcno
+        -:    0:Data:main.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "main.h"
+        -:    2:
+        -:    3:/**
+        -:    4: * Create a tree and initialise all its fields. Return a pointer to it
+        -:    5: * Time Complexity: O(1)
+        -:    6: */
+        2:    7:tree_t *create_tree() {
+        2:    8:    tree_t *tree = malloc(sizeof(tree_t));
+        2:    9:    tree->root = NULL;
+        2:   10:    tree->size = 0;
+        2:   11:    return tree;
+        -:   12:}
+        -:   13:
+        -:   14:/**
+        -:   15: * Insert element e into the tree
+        -:   16: * Time Complexity: O(h) (h = height of tree. Best case: h = log(n). 
+        -:   17: * Worst case: h = n)
+        -:   18: */
+       48:   19:void insert(tree_t *tree, int e) {
+       48:   20:    if (tree == NULL) {
+    #####:   21:        return;
+        -:   22:    }
+        -:   23:
+        -:   24:    // Element e already exists in the tree
+       48:   25:    if (search(tree, e) != NULL) {
+        6:   26:        return;
+        -:   27:    }   
+        -:   28:
+        -:   29:    // Create new node
+       42:   30:    node_t *new_node = malloc(sizeof(node_t));
+       42:   31:    new_node->element = e;
+       42:   32:    new_node->parent = NULL;
+       42:   33:    new_node->left_child = NULL;
+       42:   34:    new_node->right_child = NULL;
+        -:   35:
+        -:   36:    // Set new node as root if tree is empty
+       42:   37:    if (tree->root == NULL) {
+        4:   38:        tree->root = new_node;
+        4:   39:        tree->size++;
+        4:   40:        return;
+        -:   41:    }
+        -:   42:
+        -:   43:    // Find the position of the new node in the tree
+       38:   44:    node_t *current_node = tree->root;
+       38:   45:    node_t *parent = NULL;
+        -:   46:
+        -:   47:    while (1) {
+       90:   48:        parent = current_node;
+        -:   49:
+        -:   50:        // Left subtree
+       90:   51:        if (e < parent->element) {
+       48:   52:            current_node = current_node->left_child;
+        -:   53:
+        -:   54:            // Add the new node as the left child
+       48:   55:            if (current_node == NULL) {
+       21:   56:                current_node = new_node;
+       21:   57:                new_node->parent = parent;
+       21:   58:                parent->left_child = new_node;
+       21:   59:                tree->size++;
+       21:   60:                return;
+        -:   61:            }
+        -:   62:        }
+        -:   63:
+        -:   64:        // Right subtree
+        -:   65:        else {
+       42:   66:            current_node = current_node->right_child;
+        -:   67:
+        -:   68:            // Add the new node as the right child
+       42:   69:            if (current_node == NULL) {
+       17:   70:                current_node = new_node;
+       17:   71:                new_node->parent = parent;
+       17:   72:                parent->right_child = new_node;
+       17:   73:                tree->size++;
+       17:   74:                return;
+        -:   75:            }
+        -:   76:        }
+       52:   77:    }
+        -:   78:}
+        -:   79:
+        -:   80:/**
+        -:   81: * Search and return the node containing element e. 
+        -:   82: * Return NULL if the node is not found
+        -:   83: * Time Complexity: O(h) (h = height of tree. Best case: h = log(n). 
+        -:   84: * Worst case: h = n)
+        -:   85: */
+       86:   86:node_t *search(tree_t *tree, int e) {
+       86:   87:    if (tree == NULL) {
+    #####:   88:        return NULL;
+        -:   89:    }
+        -:   90:
+        -:   91:    // Traverse down the tree, starting at the root
+       86:   92:    node_t *current_node = tree->root;
+      314:   93:    while (current_node != NULL && current_node->element != e) {
+        -:   94:
+        -:   95:        // Left subtree
+      142:   96:        if (e < current_node->element) {
+       85:   97:            current_node = current_node->left_child;
+        -:   98:        }
+        -:   99:
+        -:  100:        // Right subtree
+        -:  101:        else {
+       57:  102:            current_node = current_node->right_child;
+        -:  103:        }
+        -:  104:    }
+        -:  105:
+        -:  106:    // Element not found in tree
+       86:  107:    if (current_node == NULL) {
+       42:  108:        return NULL;
+        -:  109:    }
+        -:  110:
+       44:  111:    return current_node;
+        -:  112:}
+        -:  113:
+        -:  114:/**
+        -:  115: * Remove the given node (p) from the tree. Return the root node from each 
+        -:  116: * recursive call. Return NULL if the root or p is NULL
+        -:  117: * Time Complexity: O(h) (h = height of tree. Best case: h = log(n). 
+        -:  118: * Worst case: h = n)
+        -:  119: */
+       71:  120:node_t *remove_node(tree_t *tree, node_t *root, node_t *p) {
+       71:  121:    if (root == NULL || p == NULL) {
+    #####:  122:        return NULL;
+        -:  123:    }
+        -:  124:
+        -:  125:    // Left subtree
+       71:  126:    if (p->element < root->element) {
+       20:  127:        root->left_child = remove_node(tree, root->left_child, p);
+        -:  128:    }
+        -:  129:
+        -:  130:    // Right subtree
+       51:  131:    else if (p->element > root->element) {
+        9:  132:        root->right_child = remove_node(tree, root->right_child, p);
+        -:  133:    }
+        -:  134:
+        -:  135:    else { // root == p
+        -:  136:
+        -:  137:        // No children
+       42:  138:        if (root->left_child == NULL && root->right_child == NULL) {
+       18:  139:            free(root);
+       18:  140:            root = NULL;
+       18:  141:            tree->size--;
+       36:  142:            if (tree->size == 0) { // Tree is now empty
+        3:  143:                tree->root = NULL;
+        -:  144:            }
+        -:  145:        }
+        -:  146:
+        -:  147:        // 1 Child (Right)
+       24:  148:        else if (root->left_child == NULL) {
+        5:  149:            node_t *current_node = root;
+        5:  150:            root = root->right_child;
+        5:  151:            if (current_node->parent == NULL) { // new root is root of tree
+        2:  152:                tree->root = root;
+        2:  153:                root->parent = NULL;
+        -:  154:            }
+        5:  155:            free(current_node);
+        5:  156:            tree->size--;
+        -:  157:        }
+        -:  158:
+        -:  159:        // 1 Child (Left)
+       19:  160:        else if (root->right_child == NULL) {
+        6:  161:            node_t *current_node = root;
+        6:  162:            root = root->left_child;
+        6:  163:            if (current_node->parent == NULL) { // new root is root of tree
+        4:  164:                tree->root = root;
+        4:  165:                root->parent = NULL;
+        -:  166:            }
+        6:  167:            free(current_node);
+        6:  168:            tree->size--;
+        -:  169:        }
+        -:  170:
+        -:  171:        // 2 Children (Right and Left)
+        -:  172:        else {
+       13:  173:            node_t *min_node = find_minimum(root->right_child); // Min node in 
+       13:  174:            root->element = min_node->element;                 // right subtree
+       13:  175:            root->right_child = remove_node(tree, root->right_child, min_node);
+        -:  176:        }
+        -:  177:    }
+       71:  178:    return root;
+        -:  179:    
+        -:  180:}
+        -:  181:
+        -:  182:/** 
+        -:  183: * Find the minimum node in the subtree of p
+        -:  184: * Helper for remove_node
+        -:  185: * Time Complexity: O(h) (h = height of tree). 
+        -:  186: */
+       13:  187:node_t *find_minimum(node_t *p) {
+       13:  188:    node_t *current_node = p;
+       34:  189:    while (current_node != NULL && current_node->left_child != NULL) {
+        8:  190:        current_node = current_node->left_child;
+        -:  191:    }
+       13:  192:    return current_node;
+        -:  193:}
+        -:  194:
+        -:  195:/**
+        -:  196: * Return the number of elements in the tree
+        -:  197: * Time Complexity: O(1)
+        -:  198: */
+       21:  199:int size(tree_t *tree) {
+       21:  200:    if (tree == NULL) {
+    #####:  201:        return 0;
+        -:  202:    }
+       21:  203:    return tree->size;
+        -:  204:}
+        -:  205:
+        -:  206:/**
+        -:  207: * Return whether the tree stores any elements or not
+        -:  208: * Time Complexity: O(1)
+        -:  209: */
+       17:  210:bool is_empty(tree_t *tree) {
+       17:  211:    if (tree == NULL) {
+    #####:  212:        return true;
+        -:  213:    }
+       17:  214:    return (tree->size == 0);
+        -:  215:}
+        -:  216:
+        -:  217:/**
+        -:  218: * Return the root of the tree
+        -:  219: * Time Complexity: O(1)
+        -:  220: */
+       21:  221:node_t *root(tree_t *tree) {
+       21:  222:    if (tree == NULL) {
+    #####:  223:        return NULL;
+        -:  224:    }
+       21:  225:    return tree->root;
+        -:  226:}
+        -:  227:
+        -:  228:/**
+        -:  229: * Return the number of children of the given node
+        -:  230: * Time Complexity: O(1)
+        -:  231: */
+       24:  232:int num_children(node_t *p) {
+       24:  233:    if (p == NULL) {
+        2:  234:        return 0;
+        -:  235:    }
+       22:  236:    if (p->left_child == NULL && p->right_child == NULL) {
+        4:  237:        return 0;
+        -:  238:    }
+       18:  239:      if (p->left_child != NULL && p->right_child != NULL) {
+       10:  240:        return 2;
+        -:  241:    }
+        8:  242:    return 1;
+        -:  243:}
+        -:  244:
+        -:  245:/**
+        -:  246: * Return whether the given node is internal or not
+        -:  247: * Time Complexity: O(1)
+        -:  248: */
+       29:  249:bool is_internal(node_t *p) {
+       29:  250:    if (p == NULL) {
+        2:  251:        return false;
+        -:  252:    }
+       27:  253:    return (p->left_child != NULL || p->right_child != NULL);
+        -:  254:}
+        -:  255:
+        -:  256:/**
+        -:  257: * Return whether the given node is external or not
+        -:  258: * Time Complexity: O(1)
+        -:  259: */
+      116:  260:bool is_external(node_t *p) {
+      116:  261:    if (p == NULL) {
+        2:  262:        return true;
+        -:  263:    }
+      114:  264:    return (p->left_child == NULL && p->right_child == NULL);
+        -:  265:}
+        -:  266:
+        -:  267:/**
+        -:  268: * Return whether the given node is the root of the tree or not
+        -:  269: * Time Complexity: O(1)
+        -:  270: */
+       16:  271:bool is_root(tree_t *tree, node_t *p) {
+       16:  272:    if (tree == NULL || p == NULL) {
+        2:  273:        return false;
+        -:  274:    }
+       14:  275:    return (tree->root == p);
+        -:  276:}
+        -:  277:
+        -:  278:/**
+        -:  279: * Perform a pre_order traversal of the tree, visiting the node 
+        -:  280: * and then its children
+        -:  281: * Time Complexity: O(n) 
+        -:  282: */
+      245:  283:void pre_order(node_t *p) {
+      245:  284:    if (p == NULL) {
+      133:  285:        return;
+        -:  286:    }
+      112:  287:    visit_node(p);
+      112:  288:    pre_order(p->left_child);
+      112:  289:    pre_order(p->right_child);
+        -:  290:}
+        -:  291:
+        -:  292:/**
+        -:  293: * Perform a post_order traversal of the tree, visiting the node's 
+        -:  294: * children and then the node
+        -:  295: * Time Complexity: O(n) 
+        -:  296: */
+      245:  297:void post_order(node_t *p) {
+      245:  298:    if (p == NULL) {
+      133:  299:        return;
+        -:  300:    }
+      112:  301:    post_order(p->left_child);
+      112:  302:    post_order(p->right_child);
+      112:  303:    visit_node(p);
+        -:  304:}
+        -:  305:
+        -:  306:/**
+        -:  307: * Perform an in_order traversal of the tree, visiting the node's left child, 
+        -:  308: * itself, and then the node's right child
+        -:  309: * Time Complexity: O(n) 
+        -:  310: */
+      245:  311:void in_order(node_t *p) {
+      245:  312:    if (p == NULL) {
+      133:  313:        return;
+        -:  314:    }
+      112:  315:    in_order(p->left_child);
+      112:  316:    visit_node(p);
+      112:  317:    in_order(p->right_child);
+        -:  318:}
+        -:  319:
+        -:  320:/** 
+        -:  321: * Print to standard output the element stored at the given node
+        -:  322: * Helper for preorder, postorder and inorder
+        -:  323: * Time Complexity: O(1)
+        -:  324: */
+      336:  325:void visit_node(node_t *p) {
+      336:  326:    if (p == NULL) {
+    #####:  327:        return;
+        -:  328:    }
+      336:  329:    printf("%d -- ", p->element);
+        -:  330:}
+        -:  331:
+        -:  332:/**
+        -:  333: * Return the depth of the given node in the tree
+        -:  334: * Time Complexity: O(h) (h = height of tree).
+        -:  335: */
+       37:  336:int depth(node_t *p) {
+       37:  337:    if (p == NULL) {
+        2:  338:        return 0;
+        -:  339:    }
+       35:  340:    if (p->parent == NULL) {
+       21:  341:        return 0;
+        -:  342:    }
+       14:  343:    return depth(p->parent) + 1;
+        -:  344:}
+        -:  345:
+        -:  346:/**
+        -:  347: * Return the height of the given node in the tree
+        -:  348: * Time Complexity: O(h) (h = height of tree).
+        -:  349: */
+      105:  350:int height(node_t *p) {
+      105:  351:    if (p == NULL) {
+       18:  352:        return 0;
+        -:  353:    }
+       87:  354:    if (is_external(p)) {
+       49:  355:        return 0;
+        -:  356:    }
+       38:  357:    int h = 0;
+       38:  358:    h = max(h, height(p->left_child));
+       38:  359:    h = max(h, height(p->right_child));
+       38:  360:    return h + 1;
+        -:  361:}
+        -:  362:
+        -:  363:/**
+        -:  364: * Return the maximum number between a and b
+        -:  365: * Helper for height
+        -:  366: * Time Complexity: O(1)
+        -:  367: */
+       76:  368:int max(int a, int b) {
+       76:  369:    return (a > b) ? a : b;
+        -:  370:}
+        -:  371:
+        -:  372:/**
+        -:  373: * Free all memory associated with the tree
+        -:  374: * Time Complexity: O(n) (including destroy_node() helper function)
+        -:  375: */
+        2:  376:void destroy_tree(tree_t *tree) {
+        2:  377:    if (!is_empty(tree)) {
+        1:  378:        destroy_node(tree->root);
+        -:  379:    }
+        2:  380:    free(tree);
+        2:  381:}
+        -:  382:
+        -:  383:/**
+        -:  384: * Free each node in the subtree of node p
+        -:  385: * Helper for destroy_tree
+        -:  386: * Time Complexity: O(n) 
+        -:  387: */
+       13:  388:void destroy_node(node_t *p) {
+       13:  389:    if (p->left_child != NULL) {
+        7:  390:        destroy_node(p->left_child);
+        -:  391:    }
+       13:  392:    if (p->right_child != NULL) {
+        5:  393:        destroy_node(p->right_child);
+        -:  394:    }
+       13:  395:    free(p);
+       13:  396:}
