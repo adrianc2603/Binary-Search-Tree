@@ -212,11 +212,11 @@
         -:  207: * Return whether the tree stores any elements or not
         -:  208: * Time Complexity: O(1)
         -:  209: */
-       17:  210:bool is_empty(tree_t *tree) {
-       17:  211:    if (tree == NULL) {
+       23:  210:bool is_empty(tree_t *tree) {
+       23:  211:    if (tree == NULL) {
     #####:  212:        return true;
         -:  213:    }
-       17:  214:    return (tree->size == 0);
+       23:  214:    return (tree->size == 0);
         -:  215:}
         -:  216:
         -:  217:/**
